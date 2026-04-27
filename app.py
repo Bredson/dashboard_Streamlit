@@ -287,7 +287,7 @@ col_hour_cols = columns
 
 styled = (
     df.style
-    .applymap(colour_hours, subset=col_hour_cols)
+    .map(colour_hours, subset=col_hour_cols)
     .format({col: lambda v: f"{v:.1f} h" if v > 0 else "—" for col in col_hour_cols})
     .format({"Total (h)": "{:.1f} h"})
 )
