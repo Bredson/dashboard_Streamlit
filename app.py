@@ -285,11 +285,13 @@ def colour_hours(val):
 
 col_hour_cols = columns
 
+fmt = {col: (lambda v: f"{v:.1f} h" if v > 0 else "—") for col in col_hour_cols}
+fmt["Total (h)"] = lambda v: f"{v:.1f} h"
+
 styled = (
     df.style
     .map(colour_hours, subset=col_hour_cols)
-    .format({col: lambda v: f"{v:.1f} h" if v > 0 else "—" for col in col_hour_cols})
-    .format({"Total (h)": "{:.1f} h"})
+    .format(fmt)
 )
 
 st.dataframe(
@@ -298,7 +300,6 @@ st.dataframe(
     height=min(40 + len(df) * 35, 600),
     column_config={
         "ID": st.column_config.LinkColumn("ID", display_text=r"\[(.+?)\]"),
-        "Total (h)": st.column_config.NumberColumn("Total (h)", format="%.1f h"),
     },
     hide_index=True,
 )
